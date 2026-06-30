@@ -1,0 +1,344 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>Espacio de Conexión</title>
+  <link href="https://fonts.googleapis.com/css2?family=Comfortaa:wght@300;500&family=Inter:wght@300;400&display=swap" rel="stylesheet">
+  
+  <style>
+    :root {
+      --bg-step0: linear-gradient(135deg, #2c3e50, #2980b9);
+      --bg-step1: linear-gradient(135deg, #1e3c72, #2a5298); 
+      --bg-step2: linear-gradient(135deg, #243b55, #141e30); 
+      --bg-step3: linear-gradient(135deg, #114357, #f29492); 
+      --bg-step4: linear-gradient(135deg, #4568dc, #b06ab3); 
+      --bg-step5: linear-gradient(135deg, #0f2027, #203a43); 
+    }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      color: #ffffff;
+      background: var(--bg-step0);
+      background-size: 400% 400%;
+      animation: fluidBg 15s ease infinite;
+      transition: background 2s ease-in-out;
+      overflow: hidden;
+    }
+
+    @keyframes fluidBg {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
+
+    .container {
+      max-width: 550px;
+      width: 90%;
+      padding: 40px;
+      background: rgba(255, 255, 255, 0.1);
+      border-radius: 32px;
+      box-shadow: 0 20px 50px rgba(0,0,0,0.3);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      text-align: center;
+      z-index: 2;
+    }
+
+    h1 {
+      font-family: 'Comfortaa', cursive;
+      font-size: 32px;
+      margin-bottom: 15px;
+      letter-spacing: 1px;
+    }
+
+    .instruction {
+      font-size: 16px;
+      line-height: 1.8;
+      color: #e0e0e0;
+      margin-bottom: 40px;
+    }
+
+    .action-button {
+      background: rgba(255, 255, 255, 0.2);
+      color: white;
+      border: 1px solid rgba(255, 255, 255, 0.4);
+      padding: 18px 45px;
+      font-size: 18px;
+      font-family: 'Comfortaa', cursive;
+      border-radius: 50px;
+      cursor: pointer;
+      transition: all 0.4s ease;
+      backdrop-filter: blur(5px);
+    }
+
+    .action-button:hover {
+      background: #ffffff;
+      color: #2c3e50;
+      box-shadow: 0 8px 25px rgba(255,255,255,0.2);
+      transform: translateY(-3px);
+    }
+
+    .breath-circle {
+      width: 140px;
+      height: 140px;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.15);
+      box-shadow: 0 0 30px rgba(255,255,255,0.2);
+      margin: 30px auto;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      font-family: 'Comfortaa', cursive;
+      font-size: 14px;
+      animation: breatheAnimation 8s ease-in-out infinite;
+    }
+
+    @keyframes breatheAnimation {
+      0%, 100% { transform: scale(1); background: rgba(255, 255, 255, 0.15); }
+      50% { transform: scale(1.3); background: rgba(255, 255, 255, 0.3); }
+    }
+
+    .timer-container {
+      display: none;
+    }
+
+    .current-step {
+      font-size: 24px;
+      font-family: 'Comfortaa', cursive;
+      margin-bottom: 20px;
+      min-height: 70px;
+      line-height: 1.4;
+    }
+
+    .countdown {
+      font-size: 56px;
+      font-weight: 300;
+      color: rgba(255,255,255,0.9);
+      font-family: 'Comfortaa', cursive;
+      min-height: 65px;
+    }
+  </style>
+</head>
+<body>
+
+  <audio id="audio-bg" src="https://www.dropbox.com/scl/fi/bwbqxwrh5c77x8lv4egbx/M-sica-relajante-Olas-del-mar-3-horas-Tiempo-Chileno-128k.mp3?rlkey=fs4z7x3jbxo3pxhhimklwb23p&st=exqdamuk&raw=1" loop preload="auto"></audio>
+
+  <audio id="audio-p1" src="magnific_LUHlt10swO.mp3" preload="auto"></audio>
+  <audio id="audio-p2" src="magnific_jSFsmfyLD0.mp3" preload="auto"></audio>
+  <audio id="audio-p3" src="magnific_YV6cJffWeC.mp3" preload="auto"></audio>
+  <audio id="audio-p4" src="magnific_43lN1HV9Aa.mp3" preload="auto"></audio>
+  <audio id="audio-p5" src="magnific_WMi0PgHcXe.mp3" preload="auto"></audio>
+
+  <div class="container">
+    <h1 id="title-text">Espacio de Conexión</h1>
+    <p id="main-text" class="instruction">
+      Siéntate en un lugar seguro. Puedes mantener los ojos abiertos o cerrados. Vamos a regresar juntos al presente sincronizando tus sentidos con tu voz guía personalizada.
+    </p>
+    
+    <button id="start-btn" class="action-button" onclick="iniciarExperiencia()">Iniciar Conexión</button>
+
+    <div id="breath-node" class="breath-circle">Respira</div>
+
+    <div id="timer-screen" class="timer-container">
+      <div id="step-text" class="current-step">Preparando...</div>
+      <div id="time-left" class="countdown"></div>
+      
+      <button id="restart-btn" class="action-button" onclick="reiniciarExperiencia()" style="display:none; margin-top: 25px;">Hacer de nuevo</button>
+    </div>
+  </div>
+
+  <script>
+    const pasos = [
+      { 
+        texto: "Nombra 5 cosas que puedas ver a tu alrededor.", 
+        audioElementId: "audio-p1",
+        tiempo: 50, 
+        retrasoMs: 14000, 
+        bgStyle: "linear-gradient(135deg, #1e3c72, #2a5298)"
+      },
+      { 
+        texto: "Identifica 4 cosas que puedas tocar o sentir en este momento.", 
+        audioElementId: "audio-p2",
+        tiempo: 40, 
+        retrasoMs: 14000, 
+        bgStyle: "linear-gradient(135deg, #243b55, #141e30)"
+      },
+      { 
+        texto: "Presta atención a 3 cosas que puedas escuchar.", 
+        audioElementId: "audio-p3",
+        tiempo: 30, 
+        retrasoMs: 13500, 
+        bgStyle: "linear-gradient(135deg, #114357, #f29492)"
+      },
+      { 
+        texto: "Trata de reconocer 2 cosas que puedas oler.", 
+        audioElementId: "audio-p4",
+        tiempo: 25, 
+        retrasoMs: 10000, 
+        bgStyle: "linear-gradient(135deg, #4568dc, #b06ab3)"
+      },
+      { 
+        texto: "Encuentra 1 cosa que puedas saborear.", 
+        audioElementId: "audio-p5",
+        tiempo: 20, 
+        retrasoMs: 13000, 
+        bgStyle: "linear-gradient(135deg, #0f2027, #203a43)"
+      }
+    ];
+
+    let pasoActual = 0;
+    let tiempoRestante = 0;
+    let intervaloTimer;
+    let delayTimeout;
+    let audioGuiaActual = null;
+    let playerBg = document.getElementById('audio-bg');
+
+    function iniciarExperiencia() {
+      if (playerBg) {
+        playerBg.volume = 0.1; 
+        playerBg.play().catch(e => console.log("Música de fondo iniciada"));
+      }
+
+      for (let i = 1; i <= 5; i++) {
+        let el = document.getElementById('audio-p' + i);
+        if (el) {
+          el.play().then(() => {
+            el.pause();
+            el.currentTime = 0;
+          }).catch(err => console.log("Desbloqueo de audio nativo exitoso"));
+        }
+      }
+
+      document.getElementById('start-btn').style.display = 'none';
+      document.getElementById('main-text').style.display = 'none';
+      document.getElementById('title-text').style.display = 'none';
+      
+      document.getElementById('breath-node').style.display = 'flex';
+      document.getElementById('timer-screen').style.display = 'block';
+
+      ejecutarPaso();
+    }
+
+    function ejecutarPaso() {
+      if (pasoActual < pasos.length) {
+        const datosPaso = pasos[pasoActual];
+        
+        document.body.style.background = datosPaso.bgStyle;
+        document.body.style.backgroundSize = "400% 400%";
+        
+        document.getElementById('step-text').innerText = "Escucha atentamente la voz...";
+        document.getElementById('time-left').innerText = ""; 
+
+        if (playerBg) {
+          playerBg.volume = 0.1;
+        }
+
+        reproducirVozIA(datosPaso.audioElementId);
+
+        clearInterval(intervaloTimer);
+        clearTimeout(delayTimeout);
+
+        delayTimeout = setTimeout(() => {
+          
+          if (playerBg) {
+            playerBg.volume = 0.2;
+          }
+
+          document.getElementById('step-text').innerText = datosPaso.texto;
+          tiempoRestante = datosPaso.tiempo;
+          document.getElementById('time-left').innerText = tiempoRestante;
+
+          intervaloTimer = setInterval(() => {
+            tiempoRestante--;
+            document.getElementById('time-left').innerText = tiempoRestante;
+
+            ajustarRitmoRespiracion(tiempoRestante);
+
+            if (tiempoRestante <= 0) {
+              clearInterval(intervaloTimer);
+              pasoActual++;
+              ejecutarPaso(); 
+            }
+          }, 1000);
+
+        }, datosPaso.retrasoMs);
+
+      } else {
+        finalizarExperiencia();
+      }
+    }
+
+    function reproducirVozIA(elementId) {
+      if (audioGuiaActual) {
+        audioGuiaActual.pause();
+        audioGuiaActual.currentTime = 0;
+      }
+      audioGuiaActual = document.getElementById(elementId);
+      if (audioGuiaActual) {
+        audioGuiaActual.volume = 1.0; 
+        audioGuiaActual.play().catch(e => console.log("Error de reproducción:", e));
+      }
+    }
+
+    function ajustarRitmoRespiracion(segundos) {
+      const node = document.getElementById('breath-node');
+      if (segundos % 8 < 4) {
+        node.innerText = "Inhala";
+      } else {
+        node.innerText = "Exhala";
+      }
+    }
+
+    function finalizarExperiencia() {
+      clearInterval(intervaloTimer);
+      clearTimeout(delayTimeout);
+      if (audioGuiaActual) audioGuiaActual.pause();
+
+      document.body.style.background = "linear-gradient(135deg, #11998e, #38ef7d)";
+      document.body.style.backgroundSize = "400% 400%";
+      
+      document.getElementById('step-text').innerText = "Estás aquí. Estás a salvo. Gracias por regalarte este momento.";
+      document.getElementById('time-left').style.display = 'none';
+      
+      document.getElementById('breath-node').innerText = "Paz";
+      document.getElementById('breath-node').style.animation = "none";
+
+      document.getElementById('restart-btn').style.display = 'inline-block';
+
+      let vol = 0.2;
+      let fadeInterval = setInterval(() => {
+        if (vol > 0.02 && playerBg) {
+          vol -= 0.02;
+          playerBg.volume = vol;
+        } else {
+          clearInterval(fadeInterval);
+          if(playerBg) playerBg.pause();
+        }
+      }, 300);
+    }
+
+    function reiniciarExperiencia() {
+      pasoActual = 0;
+      document.getElementById('restart-btn').style.display = 'none';
+      document.getElementById('time-left').style.display = 'block';
+      
+      document.getElementById('breath-node').innerText = "Respira";
+      document.getElementById('breath-node').style.animation = "breatheAnimation 8s ease-in-out infinite";
+
+      if (playerBg) {
+        playerBg.volume = 0.1;
+        playerBg.play();
+      }
+
+      ejecutarPaso();
+    }
+  </script>
+</body>
+</html>
