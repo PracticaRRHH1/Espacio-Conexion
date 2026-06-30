@@ -128,7 +128,7 @@
 </head>
 <body>
 
-  <audio id="audio-bg" src="https://www.dropbox.com/scl/fi/bwbqxwrh5c77x8lv4egbx/M-sica-relajante-Olas-del-mar-3-horas-Tiempo-Chileno-128k.mp3?rlkey=fs4z7x3jbxo3pxhhimklwb23p&st=exqdamuk&raw=1" loop preload="auto"></audio>
+  <audio id="audio-bg" src="olas.mp3" loop preload="auto"></audio>
 
   <audio id="audio-p1" src="magnific_LUHlt10swO.mp3" preload="auto"></audio>
   <audio id="audio-p2" src="magnific_jSFsmfyLD0.mp3" preload="auto"></audio>
@@ -212,7 +212,7 @@
           el.play().then(() => {
             el.pause();
             el.currentTime = 0;
-          }).catch(err => console.log("Desbloqueo de audio nativo exitoso"));
+          }).catch(err => console.log("Desbloqueo de audio local exitoso"));
         }
       }
 
@@ -283,7 +283,7 @@
       audioGuiaActual = document.getElementById(elementId);
       if (audioGuiaActual) {
         audioGuiaActual.volume = 1.0; 
-        audioGuiaActual.play().catch(e => console.log("Error de reproducción:", e));
+        audioGuiaActual.play().catch(e => console.log("Error al reproducir audio:", e));
       }
     }
 
